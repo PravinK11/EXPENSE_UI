@@ -1,14 +1,16 @@
 
 import '../index.css'
+function Budget({user,expenses}) {
+  const eArray=expenses.map(item =>  Number(item.expense_amount)); 
+  console.log(eArray)
+ const totalExpense=eArray.reduce((acc, curr) => acc + curr , 0)
 
-
-function Budget(props) {
-  const user = props.user;
 
   if (!user) return <h3>Loading...</h3>;
   const budgets = user.budget || 0;
-  const expense = 1000;
-  const remainingBudget = budgets - expense
+  const remainingBudget = budgets - totalExpense
+
+
   return (
     <div className="budget-container">
 
@@ -19,7 +21,7 @@ function Budget(props) {
 
       <div className="budget-card">
         <p className="budget-title">Total Expense</p>
-        <h3>{expense}</h3>
+        <h3>{totalExpense}</h3>
       </div>
 
       <div className="budget-card">

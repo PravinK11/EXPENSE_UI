@@ -1,16 +1,6 @@
 import { useEffect, useState } from 'react';
 import '../index.css'
-function ExpenseTable() {
-    const [expenses, setExpenses] = useState([]);
-    async function getExpenses() {
-        const res = await fetch('http://localhost:8080/expenses')
-        const data = await res.json();
-        setExpenses(data);
-    };
-    useEffect(() => {
-        getExpenses();
-    }, []);
-
+function ExpenseTable({expenses}) {
     return (
         <div className="table-container">
             <table className="expense-table">
