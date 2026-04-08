@@ -1,35 +1,60 @@
+import { useState, useEffect } from "react";
+import AddBudget from "./AddBudget";
+import "../index.css";
 
-import '../index.css'
-function Budget({user,expenses}) {
-  const eArray=expenses.map(item =>  Number(item.expense_amount)); 
-  console.log(eArray)
- const totalExpense=eArray.reduce((acc, curr) => acc + curr , 0)
+function Budget({ expenses }) {
+  const [budget, setBudget] = useState(0);
+  const [showModal, setShowModal] = useState(false);
 
+  useEffect(() => {
+    const savedBudget = localStorage.getItem("budget");
+    if (savedBudget) {
+      setBudget(Number(savedBudget));
+    }
+  }, []);
 
-  if (!user) return <h3>Loading...</h3>;
-  const budgets = user.budget || 0;
-  const remainingBudget = budgets - totalExpense
+  const totalExpense = expenses.reduce(
+    (acc, curr) => acc + Number(curr.expense_amount),
+    0
+  );
 
+  const remainingBudget = budget - totalExpense;
 
   return (
     <div className="budget-container">
 
       <div className="budget-card">
-        <p className="budget-title">Total Budget</p>
-        <h3>{budgets}</h3>
+        <p>Total Budget</p>
+        <h3>₹ {budget}</h3>
+      </div>
+      {/* 🔥 OPEN MODAL */}
+      <button onClick={() => setShowModal(true)} className="btn">
+        Set Budget
+      </button>
+
+      <div className="budget-card">
+        <p>Total Expense</p>
+        <h3>₹ {totalExpense}</h3>
       </div>
 
       <div className="budget-card">
-        <p className="budget-title">Total Expense</p>
-        <h3>{totalExpense}</h3>
+        <p>Remaining</p>
+        <h3 style={{ color: remainingBudget < 0 ? "red" : "green" }}>
+          ₹ {remainingBudget}
+        </h3>
       </div>
 
-      <div className="budget-card">
-        <p className="budget-title">Remaining Budget</p>
-        <h3>{remainingBudget}</h3>
-      </div>
+      
 
+      {/* 🔥 MODAL */}
+      {showModal && (
+        <AddBudget
+          setShowModal={setShowModal}
+          setBudget={setBudget}
+        />
+      )}
     </div>
-  )
+  );
 }
-export default Budget
+
+export default Budget;

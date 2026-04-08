@@ -6,7 +6,7 @@ import Header from './components/Header'
 import Controls from './components/Controls'
 import ExpenseModal from './components/ExpenseModal';
 import EditExpenseModal from './components/EditExpenseModal';
-
+import ExpenseChart from "./components/ExpenseChart";
 
 
 function App() {
@@ -28,14 +28,23 @@ function App() {
   }, [])
 
   const [expenses, setExpenses] = useState([]);
+  const [filteredExpenses, setFilteredExpenses] = useState([]);
+
   async function getExpenses() {
     const res = await fetch('http://localhost:8080/expenses')
     const data = await res.json();
     setExpenses(data);
+
+    setFilteredExpenses(data);
   };
   useEffect(() => {
     getExpenses();
   }, []);
+
+  // const handleFilter = ()
+  const handleFilter = (filteredData) => {
+  setFilteredExpenses(filteredData);
+};
 
 
   async function deleteExpense(id) {
@@ -54,7 +63,9 @@ function App() {
   return (
     <>
       <Header user={user} expenses={expenses} />
-      <Controls onAddExpense={() => setShowModal(true)} />
+      <ExpenseChart expenses={filteredExpenses} /> 
+
+      <Controls onAddExpense={() => setShowModal(true)} expenses={expenses}  onFilter={handleFilter} />
       {showModal && (
         <ExpenseModal
           setShowModal={setShowModal}
@@ -70,7 +81,7 @@ function App() {
         />
         )}
 
-      <ExpenseTable expenses={expenses} onDelete={deleteExpense} onEdit={handleEdit} />
+      <ExpenseTable expenses={filteredExpenses} onDelete={deleteExpense} onEdit={handleEdit} />
     </>
   )
 }

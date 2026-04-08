@@ -1,40 +1,100 @@
-import '../index.css';
+import { useState } from "react";
 
-function Controls({ onAddExpense }) {
+function Controls({ onAddExpense, onFilter, expenses }) {
+  const [activeCategory, setActiveCategory] = useState("ALL");
+  const [searchTerm, setSearchTerm] = useState("");
 
-    return (
-        <div className="controls-container">
+  // 🔍 Search
+  const handleSearch = (value) => {
+    setSearchTerm(value);
+    applyFilters(activeCategory, value);
+  };
 
+  // 🏷️ Category Filter
+  const handleCategory = (category) => {
+    setActiveCategory(category);
+    applyFilters(category, searchTerm);
+  };
 
+  // 🔥 Common Filter Function
+  const applyFilters = (category, search) => {
+    let filtered = [...expenses];
 
-            <div className="controls-left">
-                <div className="search-box">
-                    <input
-                        type="text"
-                        placeholder="Search expenses..."
-                        className="search-input"
-                    />
-                    <button className="search-icon">
-                        🔍
-                    </button>
-                </div>
+    // ✅ Filter by category NAME
+    if (category !== "ALL") {
+      filtered = filtered.filter(
+        (item) =>
+          item.category.toLowerCase() === category.toLowerCase()
+      );
+    }
 
+    // ✅ Search filter
+    if (search) {
+      filtered = filtered.filter((item) =>
+        item.expense.toLowerCase().includes(search.toLowerCase())
+      );
+    }
 
-                <button className="btn active">All Expenses</button>
-                <button className="btn">Groceries</button>
-                <button className="btn">Food & Drinks</button>
-                <button className="btn">Travel</button>
-                <button className="btn">Health</button>
-            </div>
+    onFilter(filtered);
+  };
 
-            {/* RIGHT SIDE */}
-            <div className="controls-right">
-                <button className="btn primary">+ Add Budget</button>
-                <button className="btn success" onClick={onAddExpense}>+ Add Expense</button>
-            </div>
+  return (
+    <div className="controls-left">
+      
+      {/* 🔍 Search Box */}
+      <div className="search-box">
+        <input
+          type="text"
+          placeholder="Search expenses..."
+          className="search-input"
+          value={searchTerm}
+          onChange={(e) => handleSearch(e.target.value)}
+        />
+        <button className="search-icon">🔍</button>
+      </div>
 
-        </div>
-    );
+      {/* 🏷️ Filter Buttons */}
+      <button
+        className={`btn ${activeCategory === "ALL" ? "active" : ""}`}
+        onClick={() => handleCategory("ALL")}
+      >
+        All Expenses
+      </button>
+
+      <button
+        className={`btn ${activeCategory === "Groceries" ? "active" : ""}`}
+        onClick={() => handleCategory("Groceries")}
+      >
+        Groceries
+      </button>
+
+      <button
+        className={`btn ${activeCategory === "Food & Drinks" ? "active" : ""}`}
+        onClick={() => handleCategory("Food & Drinks")}
+      >
+        Food & Drinks
+      </button>
+
+      <button
+        className={`btn ${activeCategory === "Travel" ? "active" : ""}`}
+        onClick={() => handleCategory("Travel")}
+      >
+        Travel
+      </button>
+
+      <button
+        className={`btn ${activeCategory === "Health" ? "active" : ""}`}
+        onClick={() => handleCategory("Health")}
+      >
+        Health
+      </button>
+
+      {/* ➕ Add Button */}
+      <button onClick={onAddExpense} className="btn add-btn">
+        + Add Expense
+      </button>
+    </div>
+  );
 }
 
 export default Controls;
