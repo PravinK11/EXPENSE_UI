@@ -8,7 +8,6 @@ function EditExpenseModal({ expense, setShowEditModal, refreshExpenses }) {
     expense_date: ""
   });
 
-  // ✅ Pre-fill data
   useEffect(() => {
     if (expense) {
       setForm({
@@ -35,15 +34,15 @@ function EditExpenseModal({ expense, setShowEditModal, refreshExpenses }) {
 
     try {
       await fetch(`http://localhost:8080/expenses/${expense.id}`, {
-        method: "PUT", // ✅ update API
+        method: "PUT", 
         headers: {
           "Content-Type": "application/json"
         },
         body: JSON.stringify(form)
       });
 
-      refreshExpenses();      // refresh table
-      setShowEditModal(false); // close modal
+      refreshExpenses();     
+      setShowEditModal(false); 
 
     } catch (err) {
       console.error("Error updating expense:", err);
@@ -53,7 +52,7 @@ function EditExpenseModal({ expense, setShowEditModal, refreshExpenses }) {
   return (
     <div className="modal-overlay">
       <div className="modal">
-        <h3>Edit Expense</h3>
+        <h3 className="modal-head">Edit Expense</h3>
 
         <form onSubmit={handleSubmit}>
 

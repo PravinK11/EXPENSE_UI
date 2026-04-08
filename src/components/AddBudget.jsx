@@ -11,10 +11,8 @@ function AddBudget({ setShowModal, setBudget }) {
       return;
     }
 
-    // save to localStorage
     localStorage.setItem("budget", amount);
 
-    // update state in parent
     setBudget(Number(amount));
 
     setShowModal(false);
@@ -23,7 +21,7 @@ function AddBudget({ setShowModal, setBudget }) {
   return (
     <div className="modal-overlay">
       <div className="modal">
-        <h2>Set Budget</h2>
+        <h2 className="modal-head">Set Budget</h2>
 
         <form onSubmit={handleSubmit}>
           <input

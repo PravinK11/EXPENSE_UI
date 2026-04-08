@@ -2,7 +2,6 @@ import { PieChart, Pie, Cell, Tooltip, Legend } from "recharts";
 
 function ExpenseChart({ expenses }) {
 
-  // 🔥 Convert expenses → category totals
   const data = Object.values(
     expenses.reduce((acc, curr) => {
       const category = curr.category;

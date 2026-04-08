@@ -1,12 +1,13 @@
 import { useState } from 'react'
 import { useEffect } from 'react'
-import './App.css'
+
 import ExpenseTable from './components/ExpenseTable'
 import Header from './components/Header'
 import Controls from './components/Controls'
 import ExpenseModal from './components/ExpenseModal';
 import EditExpenseModal from './components/EditExpenseModal';
 import ExpenseChart from "./components/ExpenseChart";
+import Title  from './components/Title'
 
 
 function App() {
@@ -62,27 +63,53 @@ function App() {
 
   return (
     <>
-      <Header user={user} expenses={expenses} />
-      <ExpenseChart expenses={filteredExpenses} /> 
+    <Title />
+    <Header user={user} expenses={expenses} />
 
-      <Controls onAddExpense={() => setShowModal(true)} expenses={expenses}  onFilter={handleFilter} />
-      {showModal && (
-        <ExpenseModal
-          setShowModal={setShowModal}
-          refreshExpenses={getExpenses}
-          user={user}
-        />
-      )}
-      {showEditModal && (
-        <EditExpenseModal
-          expense={selectedExpense}
-          setShowEditModal={setShowEditModal}
-          refreshExpenses={getExpenses}
-        />
-        )}
+    {/* 🔥 MAIN LAYOUT */}
+    <div className="main-layout">
 
-      <ExpenseTable expenses={filteredExpenses} onDelete={deleteExpense} onEdit={handleEdit} />
-    </>
+      {/* 📊 LEFT: CHART (25%) */}
+      <div className="left-panel">
+        <ExpenseChart expenses={filteredExpenses} />
+      </div>
+
+      {/* 📋 RIGHT: TABLE (75%) */}
+      <div className="right-panel">
+
+        {/* 🔥 CONTROLS INSIDE TABLE SECTION */}
+        <Controls
+          onAddExpense={() => setShowModal(true)}
+          expenses={expenses}
+          onFilter={handleFilter}
+        />
+
+        <ExpenseTable
+          expenses={filteredExpenses}
+          onDelete={deleteExpense}
+          onEdit={handleEdit}
+        />
+      </div>
+
+    </div>
+
+    {/* 🔥 MODALS */}
+    {showModal && (
+      <ExpenseModal
+        setShowModal={setShowModal}
+        refreshExpenses={getExpenses}
+        user={user}
+      />
+    )}
+
+    {showEditModal && (
+      <EditExpenseModal
+        expense={selectedExpense}
+        setShowEditModal={setShowEditModal}
+        refreshExpenses={getExpenses}
+      />
+    )}
+  </>
   )
 }
 

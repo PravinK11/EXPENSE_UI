@@ -32,7 +32,7 @@ function ExpenseModal({ setShowModal, refreshExpenses, user }) {
     <div className="modal-overlay">
       <div className="modal">
 
-        <h3>Add Expense</h3>
+        <h3 className="modal-head">Add Expense</h3>
 
         <form onSubmit={handleSubmit}>
           <input

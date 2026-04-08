@@ -4,23 +4,19 @@ function Controls({ onAddExpense, onFilter, expenses }) {
   const [activeCategory, setActiveCategory] = useState("ALL");
   const [searchTerm, setSearchTerm] = useState("");
 
-  // 🔍 Search
   const handleSearch = (value) => {
     setSearchTerm(value);
     applyFilters(activeCategory, value);
   };
 
-  // 🏷️ Category Filter
   const handleCategory = (category) => {
     setActiveCategory(category);
     applyFilters(category, searchTerm);
   };
 
-  // 🔥 Common Filter Function
   const applyFilters = (category, search) => {
     let filtered = [...expenses];
 
-    // ✅ Filter by category NAME
     if (category !== "ALL") {
       filtered = filtered.filter(
         (item) =>
@@ -28,7 +24,6 @@ function Controls({ onAddExpense, onFilter, expenses }) {
       );
     }
 
-    // ✅ Search filter
     if (search) {
       filtered = filtered.filter((item) =>
         item.expense.toLowerCase().includes(search.toLowerCase())
@@ -40,8 +35,7 @@ function Controls({ onAddExpense, onFilter, expenses }) {
 
   return (
     <div className="controls-left">
-      
-      {/* 🔍 Search Box */}
+
       <div className="search-box">
         <input
           type="text"
@@ -53,7 +47,6 @@ function Controls({ onAddExpense, onFilter, expenses }) {
         <button className="search-icon">🔍</button>
       </div>
 
-      {/* 🏷️ Filter Buttons */}
       <button
         className={`btn ${activeCategory === "ALL" ? "active" : ""}`}
         onClick={() => handleCategory("ALL")}
@@ -89,7 +82,6 @@ function Controls({ onAddExpense, onFilter, expenses }) {
         Health
       </button>
 
-      {/* ➕ Add Button */}
       <button onClick={onAddExpense} className="btn add-btn">
         + Add Expense
       </button>

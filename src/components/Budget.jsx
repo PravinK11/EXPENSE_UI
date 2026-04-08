@@ -23,14 +23,18 @@ function Budget({ expenses }) {
   return (
     <div className="budget-container">
 
-      <div className="budget-card">
-        <p>Total Budget</p>
-        <h3>₹ {budget}</h3>
-      </div>
-      {/* 🔥 OPEN MODAL */}
-      <button onClick={() => setShowModal(true)} className="btn">
-        Set Budget
-      </button>
+     <div className="budget-card budget-main">
+  <p className="budget-title">Total Budget</p>
+
+  <h3>₹ {budget}</h3>
+
+  <button
+    onClick={() => setShowModal(true)}
+    className="btn budget-btn"
+  >
+    Set Budget
+  </button>
+</div>
 
       <div className="budget-card">
         <p>Total Expense</p>
@@ -44,9 +48,6 @@ function Budget({ expenses }) {
         </h3>
       </div>
 
-      
-
-      {/* 🔥 MODAL */}
       {showModal && (
         <AddBudget
           setShowModal={setShowModal}
