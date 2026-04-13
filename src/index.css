@@ -341,3 +341,20 @@ h2 {
   font-weight: 600;
   text-align: center;
 }
+
+
+
+
+.header-top {
+  display: flex;
+  justify-content: space-between; /* 🔥 pushes left & right */
+  align-items: center;
+  padding: 0 20px;
+}
+
+.logout-btn {
+  cursor: pointer;
+  padding: 6px 12px;
+  border-radius: 6px;
+}
+

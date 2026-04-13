@@ -2,8 +2,9 @@ import { useState } from "react";
 
 function AddBudget({ setShowModal, setBudget }) {
   const [amount, setAmount] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!amount || isNaN(amount)) {
@@ -11,11 +12,36 @@ function AddBudget({ setShowModal, setBudget }) {
       return;
     }
 
-    localStorage.setItem("budget", amount);
+    setLoading(true);
 
-    setBudget(Number(amount));
+    try {
+      const res = await fetch("http://localhost:8080/budget", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + localStorage.getItem("token")
+        },
+        body: JSON.stringify({
+          budget_amount: Number(amount),
+          month: new Date().toISOString().slice(0, 10) // current month
+        })
+      });
 
-    setShowModal(false);
+      const data = await res.json();
+
+      if (res.ok) {
+        setBudget(data.budget.budget_amount); // ✅ update UI instantly
+        setShowModal(false);
+      } else {
+        alert(data.message);
+      }
+
+    } catch (err) {
+      console.log(err);
+      alert("Something went wrong");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -33,8 +59,8 @@ function AddBudget({ setShowModal, setBudget }) {
           />
 
           <div className="modal-buttons">
-            <button type="submit" className="btn">
-              Save
+            <button type="submit" className="btn" disabled={loading}>
+              {loading ? "Saving..." : "Save"}
             </button>
 
             <button
