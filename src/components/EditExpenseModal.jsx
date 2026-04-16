@@ -33,10 +33,12 @@ function EditExpenseModal({ expense, setShowEditModal, refreshExpenses }) {
     e.preventDefault();
 
     try {
-      await fetch(`http://localhost:8080/expenses/${expense.id}`, {
+      const BASE_URL = import.meta.env.VITE_API_URL;
+      await fetch(`${BASE_URL}/expenses/${expense.id}`, {
         method: "PUT", 
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + localStorage.getItem("token")
         },
         body: JSON.stringify(form)
       });

@@ -7,11 +7,12 @@ function Budget({ expenses }) {
   const [showModal, setShowModal] = useState(false);
   const [hasBudget, setHasBudget] = useState(false);
 
+  const BASE_URL = import.meta.env.VITE_API_URL;
   // ✅ Fetch latest budget from backend
   useEffect(() => {
     async function fetchBudget() {
       try {
-        const res = await fetch("http://localhost:8080/budget/latest", {
+        const res = await fetch(`${BASE_URL}/budget/latest`, {
           headers: {
             Authorization: "Bearer " + localStorage.getItem("token")
           }

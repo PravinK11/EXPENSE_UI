@@ -15,7 +15,8 @@ function AddBudget({ setShowModal, setBudget }) {
     setLoading(true);
 
     try {
-      const res = await fetch("http://localhost:8080/budget", {
+      const BASE_URL = import.meta.env.VITE_API_URL;
+      const res = await fetch(`${BASE_URL}/budget`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -9,9 +9,10 @@ function LoginModal({ setUser, setIsLoggedIn }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    const BASE_URL = import.meta.env.VITE_API_URL;
     const url = isRegister
-      ? "http://localhost:8080/auth/register"
-      : "http://localhost:8080/auth/login";
+      ? `${BASE_URL}/auth/register`
+  : `${BASE_URL}/auth/login`;
 
     const body = isRegister
       ? { name, email }

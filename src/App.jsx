@@ -11,6 +11,7 @@ import Title from "./components/Title";
 
 
 
+
 function App() {
   const [loading, setLoading] = useState(true);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -40,7 +41,8 @@ useEffect(() => {
 
   // ✅ FETCH EXPENSES (WITH TOKEN)
   async function getExpenses() {
-    const res = await fetch("http://localhost:8080/expenses", {
+    const BASE_URL = import.meta.env.VITE_API_URL;
+    const res = await fetch(`${BASE_URL}/expenses`, {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("token")
       }
@@ -62,7 +64,9 @@ useEffect(() => {
   };
 
   async function deleteExpense(id) {
-    await fetch(`http://localhost:8080/expenses/${id}`, {
+    const BASE_URL = import.meta.env.VITE_API_URL;
+
+  await fetch(`${BASE_URL}/expenses/${id}`, {
       method: "DELETE",
       headers: {
         Authorization: "Bearer " + localStorage.getItem("token")

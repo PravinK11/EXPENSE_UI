@@ -16,7 +16,8 @@ function ExpenseModal({ setShowModal, refreshExpenses, user }) {
   async function handleSubmit(e) {
     e.preventDefault();
 
-    await fetch("http://localhost:8080/expenses", {
+    const BASE_URL = import.meta.env.VITE_API_URL;
+    await fetch(`${BASE_URL}/expenses`, {
       method: "POST",
       
       headers: {
